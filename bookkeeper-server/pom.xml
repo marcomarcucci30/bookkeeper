@@ -288,10 +288,10 @@
                         <targetTests>
                             <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCachePutTest</param>
 				            <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCacheGetTest</param>
-				            <param>org.apache.bookkeeper.proto.checksum.TestDigestManagerGenerateMasterKey</param>
-				            <param>org.apache.bookkeeper.proto.checksum.TestDigestManagerVerifyDigestAndReturnData</param>
-				            <param>org.apache.bookkeeper.proto.checksum.TestDigestManagerVerifyDigest</param>
-				            <param>org.apache.bookkeeper.proto.checksum.TestDigestManagerVerifyDigestLac</param>
+				            <param>org.apache.bookkeeper.proto.checksum.GenerateMasterKeyTest</param>
+				            <param>org.apache.bookkeeper.proto.checksum.VerifyDigestAndReturnDataTest</param>
+				            <param>org.apache.bookkeeper.proto.checksum.VerifyDigestTest</param>
+				            <param>org.apache.bookkeeper.proto.checksum.VerifyDigestAndReturnLacTest</param>
                         </targetTests>
                         <avoidCallsTo>
                             <avoidCallsTo>java.util.logging</avoidCallsTo>

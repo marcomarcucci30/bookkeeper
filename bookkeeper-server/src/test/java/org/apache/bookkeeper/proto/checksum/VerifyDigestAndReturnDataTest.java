@@ -7,7 +7,6 @@ import java.util.Random;
 
 import org.apache.bookkeeper.proto.DataFormats.LedgerMetadataFormat.DigestType;
 import org.apache.bookkeeper.proto.checksum.entity.DigestManagerEntity;
-import org.apache.bookkeeper.client.BKException.BKDigestMatchException;
 import org.apache.bookkeeper.util.ByteBufList;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,7 +19,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.buffer.UnpooledByteBufAllocator;
 
 @RunWith(Parameterized.class)
-public class TestDigestManagerVerifyDigestAndReturnData {
+public class VerifyDigestAndReturnDataTest {
 
 	private Object expectedResult;
 	
@@ -31,10 +30,10 @@ public class TestDigestManagerVerifyDigestAndReturnData {
 
 	private boolean checked = false;
 	
-	public void generatesByteBuf(int lenght) {
+	public void generatesRandomByteBuf(int byteLenght) {
     	if (!checked) {
     		Random rnd = new Random();
-        	byte[] data = new byte[lenght];
+        	byte[] data = new byte[byteLenght];
     		rnd.nextBytes(data);
     		
     		ByteBuf bb = Unpooled.buffer(DigestManager.METADATA_LENGTH);
@@ -42,19 +41,15 @@ public class TestDigestManagerVerifyDigestAndReturnData {
     		this.entity.setTestBuf(bb);
     		this.checked = true;
 		}
-    	
-		
-		//byte[] data = dataReceived.getBytes();
-		
 	}
 	
 	@Parameterized.Parameters
-	public static Collection<Object[]> BufferedChannelParameters() throws Exception {
+	public static Collection<?> BufferedChannelParameters(){
 		return Arrays.asList(new Object[][] {
 			
 			// Suite minimale
-			{new DigestManagerEntity(0, -1, DigestType.HMAC, DigestType.HMAC, 0, -1, false, 5, true), NullPointerException.class},
-			{new DigestManagerEntity(0, 1, DigestType.HMAC, DigestType.HMAC, 0, 1, false, 5, false), 0},
+			{new DigestManagerEntity(0, -1, DigestType.HMAC, 0, -1, DigestType.HMAC, 5, false, true), NullPointerException.class},
+			{new DigestManagerEntity(0, 1, DigestType.HMAC, 0, 1, DigestType.HMAC, 5, false, false), 0},
 			/*l'unico modo per rendere Invalid l'oggeto ByteBufe è modificare il parametro "lenght". L'oggetto BytebUf, però, se riceve un lenght positivo
 			 * viene creato correttamente altrimenti genera un'eccezione al momento dell'istanziazione. Quindi, il parametro ByteBuf deve essere passato
 			 * già in maniera corretta alla funzione da testare. Questo ci permette di non considerare il caso di test in cui il parametro ByteBuf è
@@ -62,28 +57,26 @@ public class TestDigestManagerVerifyDigestAndReturnData {
 			});
 	}
 	
-	public TestDigestManagerVerifyDigestAndReturnData(DigestManagerEntity entity, Object expectedResult){
+	public VerifyDigestAndReturnDataTest(DigestManagerEntity entity, Object expectedResult){
 		this.entity = entity;
 		if (expectedResult.equals(0)) {
-			generatesByteBuf(entity.getLength());
+			generatesRandomByteBuf(entity.getLength());
 			this.expectedResult = entity.getTestBuf();
-		}	//this.expectedResult = DigestManagerEntity.generateEntryMutationBranch(5);
-		else {
+		}else {
 			this.expectedResult = expectedResult;
 		}
 	}
 
 
 	@Before
-	public void beforeTest() throws GeneralSecurityException {
+	public void setUp() throws GeneralSecurityException {
 		this.digestManager = DigestManager.instantiate(entity.getLedgerIdToTest(), 
-				"testPassword".getBytes(), entity.getDigestTypeToTest(), UnpooledByteBufAllocator.DEFAULT, false);
+				"pass".getBytes(), entity.getDigestTypeToTest(), UnpooledByteBufAllocator.DEFAULT, false);
 
 		this.digestForSending = DigestManager.instantiate(entity.getLedgerID(), 
-				"testPassword".getBytes(), entity.getDigestType(), UnpooledByteBufAllocator.DEFAULT, false);
+				"pass".getBytes(), entity.getDigestType(), UnpooledByteBufAllocator.DEFAULT, false);
 
-		generatesByteBuf(entity.getLength());
-		ByteBuf bb = this.entity.getTestBuf();
+		generatesRandomByteBuf(entity.getLength());
 		
 		if (entity.isNull()) {
 			entity.setTestBufList(null);
@@ -91,16 +84,17 @@ public class TestDigestManagerVerifyDigestAndReturnData {
 		}
 		
 		ByteBufList byteBufList = digestForSending.computeDigestAndPackageForSending(entity.getEntryId(), 0, 
-				this.entity.getTestBuf().readableBytes(), bb);
+				this.entity.getTestBuf().readableBytes(), this.entity.getTestBuf());
 		this.entity.setTestBufList(byteBufList);
 	}
 	
 	@Test
-	public void testVerifyDigestData() throws GeneralSecurityException{
+	public void verifyDigestAndReturnDataTest(){
 
 		try {
-			Assert.assertEquals(expectedResult, digestManager.verifyDigestAndReturnData(entity.getEntryIdToTest(), 
-					ByteBufList.coalesce(entity.getTestBufList())));
+			ByteBuf result = digestManager.verifyDigestAndReturnData(entity.getEntryIdToTest(), 
+					ByteBufList.coalesce(entity.getTestBufList()));
+			Assert.assertEquals(expectedResult, result);
 		} catch (Exception e) {
 			Assert.assertEquals(expectedResult, e.getClass());
 		}

@@ -1,14 +1,9 @@
 package org.apache.bookkeeper.proto.checksum.entity;
 
-import java.security.GeneralSecurityException;
-
 import org.apache.bookkeeper.proto.DataFormats.LedgerMetadataFormat.DigestType;
-import org.apache.bookkeeper.proto.checksum.DigestManager;
 import org.apache.bookkeeper.util.ByteBufList;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.buffer.UnpooledByteBufAllocator;
 
 public class DigestManagerEntity {
 	
@@ -29,49 +24,35 @@ public class DigestManagerEntity {
 		this.pass = bs;
 	}
 	
-	public DigestManagerEntity(int lacID, DigestType digestType, int ledgerID, boolean useV2Protocol) throws GeneralSecurityException {
+	public DigestManagerEntity(int lacID, DigestType digestType, int ledgerID, boolean useV2Protocol, boolean isNull) {
 		this.lacID = lacID;
 		this.digestType = digestType;
 		this.ledgerID = ledgerID;
 		this.useV2Protocol = useV2Protocol;
+		this.isNull = isNull;
 	}
 	
 	
-	public DigestManagerEntity( int ledgerID, int entryId, DigestType digestType, DigestType digestTypeToTest, int ledgerIdToTest,
-			int entryIdToTest, boolean badByteBufList, int length, boolean isNull) throws GeneralSecurityException {
+	public DigestManagerEntity(int ledgerIdToTest, int entryIdToTest, DigestType digestTypeToTest, 
+			int ledgerID, int entryId, DigestType digestType, int length, boolean badByteBufList, 
+			boolean isNull) {
 		this.entryId = entryId;
 		this.entryIdToTest = entryIdToTest;
 		this.ledgerIdToTest = ledgerIdToTest;
 		this.digestType = digestType;
-		this.setDigestTypeToTest(digestTypeToTest);
+		this.digestTypeToTest = digestTypeToTest;
 		this.ledgerID = ledgerID;
 		this.badByteBufList = badByteBufList;
 		this.length = length;
 		this.isNull = isNull;
 	}
-	
+
 	public int getLength() {
 		return length;
 	}
 
 	public void setLength(int length) {
 		this.length = length;
-	}
-
-	public boolean isBadByteBufList() {
-		return badByteBufList;
-	}
-
-	public void setBadByteBufList(boolean badByteBufList) {
-		this.badByteBufList = badByteBufList;
-	}
-
-	public boolean isNull() {
-		return isNull;
-	}
-
-	public void setNull(boolean isNull) {
-		this.isNull = isNull;
 	}
 
 	public int getLacID() {
@@ -82,68 +63,12 @@ public class DigestManagerEntity {
 		this.lacID = lacID;
 	}
 
-	public DigestType getDigestType() {
-		return digestType;
-	}
-
-	public void setDigestType(DigestType digestType) {
-		this.digestType = digestType;
-	}
-
-	public long getLedgerID() {
-		return ledgerID;
-	}
-
-	public void setLedgerID(int ledgerID) {
-		this.ledgerID = ledgerID;
-	}
-
-	public boolean isUseV2Protocol() {
-		return useV2Protocol;
-	}
-
-	public void setUseV2Protocol(boolean useV2Protocol) {
-		this.useV2Protocol = useV2Protocol;
-	}
-
-	public ByteBuf getTestBuf() {
-		return testBuf;
-	}
-
-	public void setTestBuf(ByteBuf testBuf) {
-		this.testBuf = testBuf;
-	}
-
-	public byte[] getPass() {
-		return pass;
-	}
-
-	public void setPass(byte[] pass) {
-		this.pass = pass;
-	}
-
 	public int getEntryId() {
 		return entryId;
 	}
 
 	public void setEntryId(int entryId) {
 		this.entryId = entryId;
-	}
-
-	public ByteBufList getTestBufList() {
-		return testBufList;
-	}
-
-	public void setTestBufList(ByteBufList testBufList) {
-		this.testBufList = testBufList;
-	}
-
-	public DigestType getDigestTypeToTest() {
-		return digestTypeToTest;
-	}
-
-	public void setDigestTypeToTest(DigestType digestTypeToTest) {
-		this.digestTypeToTest = digestTypeToTest;
 	}
 
 	public int getEntryIdToTest() {
@@ -154,6 +79,30 @@ public class DigestManagerEntity {
 		this.entryIdToTest = entryIdToTest;
 	}
 
+	public DigestType getDigestType() {
+		return digestType;
+	}
+
+	public void setDigestType(DigestType digestType) {
+		this.digestType = digestType;
+	}
+
+	public DigestType getDigestTypeToTest() {
+		return digestTypeToTest;
+	}
+
+	public void setDigestTypeToTest(DigestType digestTypeToTest) {
+		this.digestTypeToTest = digestTypeToTest;
+	}
+
+	public int getLedgerID() {
+		return ledgerID;
+	}
+
+	public void setLedgerID(int ledgerID) {
+		this.ledgerID = ledgerID;
+	}
+
 	public int getLedgerIdToTest() {
 		return ledgerIdToTest;
 	}
@@ -162,4 +111,53 @@ public class DigestManagerEntity {
 		this.ledgerIdToTest = ledgerIdToTest;
 	}
 
+	public boolean isBadByteBufList() {
+		return badByteBufList;
+	}
+
+	public void setBadByteBufList(boolean badByteBufList) {
+		this.badByteBufList = badByteBufList;
+	}
+
+	public ByteBuf getTestBuf() {
+		return testBuf;
+	}
+
+	public void setTestBuf(ByteBuf testBuf) {
+		this.testBuf = testBuf;
+	}
+
+	public ByteBufList getTestBufList() {
+		return testBufList;
+	}
+
+	public void setTestBufList(ByteBufList testBufList) {
+		this.testBufList = testBufList;
+	}
+
+	public boolean isNull() {
+		return isNull;
+	}
+
+	public void setNull(boolean isNull) {
+		this.isNull = isNull;
+	}
+
+	public byte[] getPass() {
+		return pass;
+	}
+
+	public void setPass(byte[] pass) {
+		this.pass = pass;
+	}
+
+	public boolean isUseV2Protocol() {
+		return useV2Protocol;
+	}
+
+	public void setUseV2Protocol(boolean useV2Protocol) {
+		this.useV2Protocol = useV2Protocol;
+	}
+	
+	
 }
