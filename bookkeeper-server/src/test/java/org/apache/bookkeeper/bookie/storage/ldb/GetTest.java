@@ -4,8 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.UnpooledByteBufAllocator;
-import org.apache.bookkeeper.bookie.storage.ldb.entity.WriteTestEntity;
-import org.junit.After;
+import org.apache.bookkeeper.bookie.storage.ldb.entity.WriteCacheEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,19 +16,36 @@ import java.util.Collection;
 
 
 @RunWith(value = Parameterized.class)
-public class WriteCacheGetTest { 
+public class GetTest { 
 
     private WriteCache writeCache;
     private ByteBufAllocator byteBufAllocator;
     private final int entryNumber = 10;
     private final int entrySize = 1024;
     private ByteBuf entry;
-    private final int ledgerId = 0;
-    private final int entryId = 0;
-    private WriteTestEntity writeEntity;
+    private WriteCacheEntity writeEntity;
     private ByteBuf expectedResults;
 
 
+    //Parametri in input
+    @Parameterized.Parameters
+    public static Collection<?> getParameters(){
+        return Arrays.asList(new Object[][] {
+        	//Ledger id >= 0
+        	
+        	//suite minimale
+            {new WriteCacheEntity(0, 0), null}, //sovrascritto dal setup: ByteBuff immesso in cache
+            {new WriteCacheEntity(-1, -1), null},
+            {new WriteCacheEntity(1, 1), null},
+            
+            //branch e line coverage
+            /*{new WriteCacheEntity(0, -1), null},*/
+            
+            //ridondante
+            //{new WriteTestEntity(-1, 0), null}
+        });
+    }
+    
     @Before
     public void setUp() throws Exception {
         byteBufAllocator = UnpooledByteBufAllocator.DEFAULT;
@@ -62,41 +78,13 @@ public class WriteCacheGetTest {
 
     }
 
-    @After
-    public void tearDown() throws Exception {
-        writeCache.clear();
-        entry.release();
-        writeCache.close();
-    }
-
-    //Parametri in input
-    @Parameterized.Parameters
-    public static Collection<?> getParameters(){
-        return Arrays.asList(new Object[][] {
-        	//key1 >= 0
-        	//key1>=0, key1<0
-        	//key2>=0, key2<0
-        	
-        	//key1=-1, key1=0
-        	//key2=-1. key2=0
-        	//suite minimale
-            {new WriteTestEntity(0, 0), null}, //sovrascritto dal setup: ByteBuff immesso in cache
-            {new WriteTestEntity(-1, -1), null},
-            {new WriteTestEntity(1, 1), null},
-            
-            //branch e line coverage
-            {new WriteTestEntity(0, -1), null},
-            //ridondante
-            //{new WriteTestEntity(-1, 0), null}
-        });
-    }
-
-    public WriteCacheGetTest(WriteTestEntity writeEntity, ByteBuf expectedResults){
+    public GetTest(WriteCacheEntity writeEntity, ByteBuf expectedResults){
         this.writeEntity = writeEntity;
         this.expectedResults = expectedResults;
     }
+    
     @Test
-    public void getFromCache(){
+    public void getTest(){
 
         ByteBuf result = null;
 

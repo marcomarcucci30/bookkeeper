@@ -58,14 +58,14 @@ public class VerifyDigestTest {
 			 * NON valido. */
 			
 			// Coverage
-			{new DigestManagerEntity(0, 0, DigestType.HMAC, 0, 1, DigestType.HMAC, 12, false, false), BKDigestMatchException.class},
+			/*{new DigestManagerEntity(0, 0, DigestType.HMAC, 0, 1, DigestType.HMAC, 12, false, false), BKDigestMatchException.class},
 			{new DigestManagerEntity(-1, 1, DigestType.DUMMY, 1, 1, DigestType.DUMMY, 12, false, false), BKDigestMatchException.class},
 			{new DigestManagerEntity(1, 1, DigestType.HMAC, 1,1, DigestType.CRC32, 12, false, false), BKDigestMatchException.class},
 			{new DigestManagerEntity(1, 1, DigestType.HMAC, 1, 1, DigestType.CRC32C, 12, true, false), BKDigestMatchException.class},
 			
 			//mutation
 			{new DigestManagerEntity(1, 1, DigestType.CRC32C, 1, 1, DigestType.CRC32, 0, false, false), BKDigestMatchException.class},
-			{new DigestManagerEntity(0, 1, DigestType.HMAC, 0, 1, DigestType.HMAC, 0, false, false), 0},
+			{new DigestManagerEntity(0, 1, DigestType.HMAC, 0, 1, DigestType.HMAC, 0, false, false), 0},*/
 		
 		});
 	}

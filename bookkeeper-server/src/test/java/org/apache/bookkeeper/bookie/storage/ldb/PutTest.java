@@ -4,8 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.buffer.UnpooledByteBufAllocator;
-import org.apache.bookkeeper.bookie.storage.ldb.entity.WriteTestEntity;
-import org.junit.After;
+import org.apache.bookkeeper.bookie.storage.ldb.entity.WriteCacheEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,17 +15,16 @@ import java.util.Arrays;
 import java.util.Collection;
 
 @RunWith(value = Parameterized.class)
-public class WriteCachePutTest {
+public class PutTest {
 
     private WriteCache writeCache;
     private ByteBufAllocator byteBufAllocator;
     private ByteBuf entry;
-    private WriteTestEntity writeEntity;
+    private WriteCacheEntity writeEntity;
     private boolean expectedResults;
 	private int expectedCount;
 
 
-    //Parametri in input
     @Parameterized.Parameters
     public static Collection<?> getParameters(){
     final int entryNumber = 10;
@@ -44,23 +42,23 @@ public class WriteCachePutTest {
         return Arrays.asList(new Object[][] {
         	//suite minimale
         	
-        		{new WriteTestEntity(1, 1, true, kilo * entryNumber, kilo, kilo, false), true, 2},
-                
-        		{new WriteTestEntity(0, -1, false, kilo * entryNumber, kilo, giga, false), false, 0},
-                {new WriteTestEntity(-1, 0, true, kilo * entryNumber, kilo, giga, false), false, 0},
-                
-                //{new WriteTestEntity(1, -1, true, kilo * entryNumber, kilo, giga, false), false},
-              //coverage aumentata al 97.8 da 95.6
-                {new WriteTestEntity(1, 2, true, kilo / entryNumber, kilo, giga, false), false, 0},
-              //coverage aumentata al 99.1 da 97.8
-                {new WriteTestEntity(1, 2, true, 2 * mega, mega, mega/2, false), false, 0},
-              //coverage aumentata al 100 da 99.1
-                {new WriteTestEntity(1, 1, true, kilo * 2, kilo, giga, true), true, 2},
+    		{new WriteCacheEntity(1, 1, true, kilo * entryNumber, kilo, kilo, false), true, 2},
+    		{new WriteCacheEntity(0, -1, false, kilo * entryNumber, kilo, giga, false), false, 0},
+            {new WriteCacheEntity(-1, 0, true, kilo * entryNumber, kilo, giga, false), false, 0},
+            
+            //coverage 
+            /*{new WriteCacheEntity(1, 2, true, kilo / entryNumber, kilo, giga, false), false, 0},
+            {new WriteCacheEntity(1, 2, true, 2 * mega, mega, mega/2, false), false, 0},
+            {new WriteCacheEntity(1, 1, true, kilo * 2, kilo, giga, true), true, 2},*/
+            
+
+            //ridondante
+            //{new WriteTestEntity(1, -1, true, kilo * entryNumber, kilo, giga, false), false},
                 
         });
     }
 
-    public WriteCachePutTest(WriteTestEntity writeEntity, boolean expectedResults, int expectedCount){
+    public PutTest(WriteCacheEntity writeEntity, boolean expectedResults, int expectedCount){
         this.writeEntity = writeEntity;
         this.expectedResults = expectedResults;
         this.expectedCount = expectedCount;
@@ -87,17 +85,10 @@ public class WriteCachePutTest {
         
     }
 
-    @After
-    public void tearDown() throws Exception {
-        writeCache.clear();
-        if(entry != null) entry.release();
-        writeCache.close();
-    }
-
 
 
     @Test
-    public void putFromCache(){
+    public void putTest(){
 
         boolean result;
 
@@ -114,8 +105,7 @@ public class WriteCachePutTest {
         }
 
         Assert.assertEquals(this.expectedResults, result);
-        System.out.println("count: "+writeCache.count());
-        
+                
         //for mutation line 178
         Assert.assertEquals(this.expectedCount, this.writeCache.count());
 

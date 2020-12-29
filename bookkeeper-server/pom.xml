@@ -286,8 +286,8 @@
             				<param>org.apache.bookkeeper.proto.checksum.DigestManager</param>
                         </targetClasses>
                         <targetTests>
-                            <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCachePutTest</param>
-				            <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCacheGetTest</param>
+                            <param>org.apache.bookkeeper.bookie.storage.ldb.GetTest</param>
+				            <param>org.apache.bookkeeper.bookie.storage.ldb.PutTest</param>
 				            <param>org.apache.bookkeeper.proto.checksum.GenerateMasterKeyTest</param>
 				            <param>org.apache.bookkeeper.proto.checksum.VerifyDigestAndReturnDataTest</param>
 				            <param>org.apache.bookkeeper.proto.checksum.VerifyDigestTest</param>

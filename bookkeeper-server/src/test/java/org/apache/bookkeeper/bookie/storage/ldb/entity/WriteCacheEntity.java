@@ -1,6 +1,6 @@
 package org.apache.bookkeeper.bookie.storage.ldb.entity;
 
-public class WriteTestEntity {
+public class WriteCacheEntity {
     private int entryId;
     private int ledgerId;
     private boolean validEntry;
@@ -9,12 +9,12 @@ public class WriteTestEntity {
     private int segmentSize;
     private boolean doublePut;
 
-    public WriteTestEntity(int ledgerId, int entryId) {
+    public WriteCacheEntity(int ledgerId, int entryId) {
         this.ledgerId = ledgerId;
         this.entryId = entryId;
     }
     
-    public WriteTestEntity(int ledgerId, int entryId, boolean validEntry, long cacheSize, int entrySize, int segmentSize, boolean doublePut) {
+    public WriteCacheEntity(int ledgerId, int entryId, boolean validEntry, long cacheSize, int entrySize, int segmentSize, boolean doublePut) {
     	//put case
     	this.cacheSize = cacheSize;
         this.entryId = entryId;
@@ -68,30 +68,5 @@ public class WriteTestEntity {
 
 	public void setDoublePut(boolean doublePut) {
 		this.doublePut = doublePut;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + entryId;
-		result = prime * result + ledgerId;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		WriteTestEntity other = (WriteTestEntity) obj;
-		if (entryId != other.entryId)
-			return false;
-		if (ledgerId != other.ledgerId)
-			return false;
-		return true;
 	}
 }
