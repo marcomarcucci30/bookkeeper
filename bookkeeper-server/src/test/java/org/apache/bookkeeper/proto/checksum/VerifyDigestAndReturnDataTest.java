@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Random;
 
+import org.apache.bookkeeper.client.BKException.BKDigestMatchException;
 import org.apache.bookkeeper.proto.DataFormats.LedgerMetadataFormat.DigestType;
 import org.apache.bookkeeper.proto.checksum.entity.DigestManagerEntity;
 import org.apache.bookkeeper.util.ByteBufList;
@@ -50,10 +51,15 @@ public class VerifyDigestAndReturnDataTest {
 			// Suite minimale
 			{new DigestManagerEntity(0, -1, DigestType.HMAC, 0, -1, DigestType.HMAC, 5, false, true), NullPointerException.class},
 			{new DigestManagerEntity(0, 1, DigestType.HMAC, 0, 1, DigestType.HMAC, 5, false, false), 0},
+			{new DigestManagerEntity(0, 0, DigestType.HMAC, 0, 0, DigestType.HMAC, 5, false, false), 0},
 			/*l'unico modo per rendere Invalid l'oggeto ByteBufe è modificare il parametro "lenght". L'oggetto BytebUf, però, se riceve un lenght positivo
 			 * viene creato correttamente altrimenti genera un'eccezione al momento dell'istanziazione. Quindi, il parametro ByteBuf deve essere passato
 			 * già in maniera corretta alla funzione da testare. Questo ci permette di non considerare il caso di test in cui il parametro ByteBuf è
 			 * NON valido. */
+			
+			//mutation
+			/*{new DigestManagerEntity(1, 1, DigestType.CRC32C, 1, 1, DigestType.CRC32, 0, false, false), BKDigestMatchException.class}*/
+			
 			});
 	}
 	

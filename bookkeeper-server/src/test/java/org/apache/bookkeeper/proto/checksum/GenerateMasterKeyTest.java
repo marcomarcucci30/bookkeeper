@@ -66,14 +66,6 @@ public class GenerateMasterKeyTest {
 		}
 		
 	}
-	
-	public static void main(String[] args) {
-		/*byte[] pass = "ciao".getBytes();
-		byte[] d = Mockito.spy(pass);
-		Mockito.when(d.length).thenReturn(1);
-		
-		System.out.println(d.length);*/
-	}
 
 }  
 
