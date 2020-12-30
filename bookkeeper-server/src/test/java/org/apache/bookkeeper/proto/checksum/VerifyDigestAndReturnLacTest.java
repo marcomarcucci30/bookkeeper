@@ -33,9 +33,9 @@ public class VerifyDigestAndReturnLacTest {
 			{new DigestManagerEntity(-1, DigestType.CRC32, 1, true, false), (long)-1},
 			
 			// Coverage and mutation
-			/*{new DigestManagerEntity(0, DigestType.HMAC,1, false, false), BKDigestMatchException.class},
+			{new DigestManagerEntity(0, DigestType.HMAC,1, false, false), BKDigestMatchException.class},
 			{new DigestManagerEntity(1, DigestType.CRC32C, 1, true, false), BKDigestMatchException.class},
-			{new DigestManagerEntity(-1, DigestType.CRC32, 0, true, false), BKDigestMatchException.class},*/
+			{new DigestManagerEntity(-1, DigestType.CRC32, 0, true, false), BKDigestMatchException.class},
 		});
 	}
 

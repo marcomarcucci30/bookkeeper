@@ -58,7 +58,7 @@ public class VerifyDigestAndReturnDataTest {
 			 * NON valido. */
 			
 			//mutation
-			/*{new DigestManagerEntity(1, 1, DigestType.CRC32C, 1, 1, DigestType.CRC32, 0, false, false), BKDigestMatchException.class}*/
+			{new DigestManagerEntity(1, 1, DigestType.CRC32C, 1, 1, DigestType.CRC32, 0, false, false), BKDigestMatchException.class}
 			
 			});
 	}

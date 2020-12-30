@@ -47,9 +47,9 @@ public class PutTest {
             {new WriteCacheEntity(-1, 0, true, kilo * entryNumber, kilo, giga, false), false, 0},
             
             //coverage 
-            /*{new WriteCacheEntity(1, 2, true, kilo / entryNumber, kilo, giga, false), false, 0},
+            {new WriteCacheEntity(1, 2, true, kilo / entryNumber, kilo, giga, false), false, 0},
             {new WriteCacheEntity(1, 2, true, 2 * mega, mega, mega/2, false), false, 0},
-            {new WriteCacheEntity(1, 1, true, kilo * 2, kilo, giga, true), true, 2},*/
+            {new WriteCacheEntity(1, 1, true, kilo * 2, kilo, giga, true), true, 2},
             
 
             //ridondante

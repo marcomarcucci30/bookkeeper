@@ -39,7 +39,7 @@ public class GetTest {
             {new WriteCacheEntity(1, 1), null},
             
             //branch e line coverage
-            /*{new WriteCacheEntity(0, -1), null},*/
+            {new WriteCacheEntity(0, -1), null},
             
             //ridondante
             //{new WriteTestEntity(-1, 0), null}
