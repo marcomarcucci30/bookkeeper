@@ -40,9 +40,6 @@ public class GetTest {
             
             //branch e line coverage
             {new WriteCacheEntity(0, -1), null},
-            
-            //ridondante
-            //{new WriteTestEntity(-1, 0), null}
         });
     }
     
@@ -53,27 +50,22 @@ public class GetTest {
          * segmenti composti da più entry
          * 
          * piu entry = ledger
-         * piu ledgre = bokkie
+         * piu ledger = bokkie
          * */
         
-        /*se mettiamo 1024 come segment max, allora l'd del segmento che andiamo a considerare
+        /*se mettiamo 1024 come segment max, allora l'id del segmento che andiamo a considerare
          * quando ricerchiamo una entry aumenta.*/
         writeCache = new WriteCache(byteBufAllocator, entrySize * entryNumber, 1024);
 
         entry = byteBufAllocator.buffer(entrySize);
-        //System.out.println(entry.maxCapacity());
         ByteBufUtil.writeAscii(entry, "test");
         entry.writerIndex(entry.capacity());
-
-        
-        //System.out.println(writeEntity.getEntryId()+", "+writeEntity.getLedgerId());
         
         if(writeEntity.getLedgerId()>=0 && writeEntity.getEntryId()>=0) {
         	writeCache.put(2, 2, entry);
 
             writeCache.put(writeEntity.getLedgerId(), writeEntity.getEntryId(), entry);
         	this.expectedResults = entry;
-        	
         }
 
     }
@@ -92,11 +84,8 @@ public class GetTest {
             result = writeCache.get(writeEntity.getLedgerId(), writeEntity.getEntryId());
         }
         catch(Exception e){
-            //e.printStackTrace();
             result = null;
         }
-        
-        //System.out.println(expectedResults +", "+result);
         
         Assert.assertEquals(expectedResults, result);
 

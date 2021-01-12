@@ -10,15 +10,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-
-
-
 @RunWith(Parameterized.class)
 public class GenerateMasterKeyTest {
 	
-
 	private byte[] pass;
-
 	private Object expectedResult;
 	private static int byteLenght = 50;
 	static byte[] randomByte = null;
@@ -32,12 +27,6 @@ public class GenerateMasterKeyTest {
 	@Parameterized.Parameters
 	public static Collection<?> BufferedChannelParameters() throws Exception {
 		generatesBytes();
-		
-		/*MUTATION COVERAGE:
-		 * 
-		 * - TODO far funzionare il power mock al progetto
-		 * */
-		
 		return Arrays.asList(new Object[][] {
 			
 			// Suite minimale
@@ -54,19 +43,14 @@ public class GenerateMasterKeyTest {
 	}
 
 	@Test
-	public void testGenerateMasterKey() {
-		/*byte[] d = Mockito.spy(pass);
-		Mockito.when(d.length).thenReturn(1);*/
-		
-		
+	public void testGenerateMasterKey() {		
 		try {
 			byte[] result = DigestManager.generateMasterKey(pass);
 			Assert.assertArrayEquals((byte[]) expectedResult, result);
 		} catch (Exception e) {
+			//nothing
 		}
-		
 	}
-
 }  
 
 

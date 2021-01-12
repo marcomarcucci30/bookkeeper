@@ -158,6 +158,4 @@ public class DigestManagerEntity {
 	public void setUseV2Protocol(boolean useV2Protocol) {
 		this.useV2Protocol = useV2Protocol;
 	}
-	
-	
 }

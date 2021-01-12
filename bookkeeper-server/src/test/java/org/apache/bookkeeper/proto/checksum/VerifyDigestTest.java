@@ -60,7 +60,6 @@ public class VerifyDigestTest {
 			 * NON valido. */
 			
 			// Coverage
-			
 			{new DigestManagerEntity(0, 0, DigestType.HMAC, 0, 1, DigestType.HMAC, 12, false, false), BKDigestMatchException.class},
 			{new DigestManagerEntity(-1, 1, DigestType.DUMMY, 1, 1, DigestType.DUMMY, 12, false, false), BKDigestMatchException.class},
 			{new DigestManagerEntity(1, 1, DigestType.HMAC, 1,1, DigestType.CRC32, 12, false, false), BKDigestMatchException.class},
@@ -82,8 +81,6 @@ public class VerifyDigestTest {
 			this.expectedResult = expectedResult;
 		}
 	}
-
-
 
 	@Before
 	public void setUp() throws GeneralSecurityException {

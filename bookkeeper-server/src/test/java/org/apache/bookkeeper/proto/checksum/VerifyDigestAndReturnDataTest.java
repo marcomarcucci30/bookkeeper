@@ -96,7 +96,6 @@ public class VerifyDigestAndReturnDataTest {
 	
 	@Test
 	public void verifyDigestAndReturnDataTest(){
-
 		try {
 			ByteBuf result = digestManager.verifyDigestAndReturnData(entity.getEntryIdToTest(), 
 					ByteBufList.coalesce(entity.getTestBufList()));

@@ -37,24 +37,17 @@ public class PutTest {
 	 * */
     
     /*
-     * ledgerId e entryId >= 0 
-     * cambiare 3 par con null */
-        return Arrays.asList(new Object[][] {
-        	//suite minimale
-        	
-    		{new WriteCacheEntity(1, 1, true, kilo * entryNumber, kilo, kilo, false), true, 2},
-    		{new WriteCacheEntity(0, -1, false, kilo * entryNumber, kilo, giga, false), false, 0},
-            {new WriteCacheEntity(-1, 0, true, kilo * entryNumber, kilo, giga, false), false, 0},
-            
-            //coverage 
-            {new WriteCacheEntity(1, 2, true, kilo / entryNumber, kilo, giga, false), false, 0},
-            {new WriteCacheEntity(1, 2, true, 2 * mega, mega, mega/2, false), false, 0},
-            {new WriteCacheEntity(1, 1, true, kilo * 2, kilo, giga, true), true, 2},
-            
-
-            //ridondante
-            //{new WriteTestEntity(1, -1, true, kilo * entryNumber, kilo, giga, false), false},
-                
+     * ledgerId e entryId >= 0  */
+     return Arrays.asList(new Object[][] {
+    	//suite minimale
+		{new WriteCacheEntity(1, 1, true, kilo * entryNumber, kilo, kilo, false), true, 2},
+		{new WriteCacheEntity(0, -1, false, kilo * entryNumber, kilo, giga, false), false, 0},
+        {new WriteCacheEntity(-1, 0, true, kilo * entryNumber, kilo, giga, false), false, 0},
+        
+        //coverage 
+        {new WriteCacheEntity(1, 2, true, kilo / entryNumber, kilo, giga, false), false, 0},
+        {new WriteCacheEntity(1, 2, true, 2 * mega, mega, mega/2, false), false, 0},
+        {new WriteCacheEntity(1, 1, true, kilo * 2, kilo, giga, true), true, 2},                
         });
     }
 
@@ -81,21 +74,14 @@ public class PutTest {
         else {
             entry = null;
         }
-        
-        
     }
-
 
 
     @Test
     public void putTest(){
-
         boolean result;
-
         try{
-
             result = writeCache.put(writeEntity.getLedgerId(), writeEntity.getEntryId(), entry);
-            
             if(writeEntity.isDoublePut()) {
             	result = writeCache.put(writeEntity.getLedgerId(), writeEntity.getEntryId() - 1, entry);
             }
@@ -105,7 +91,6 @@ public class PutTest {
         }
 
         Assert.assertEquals(this.expectedResults, result);
-                
         //for mutation line 178
         Assert.assertEquals(this.expectedCount, this.writeCache.count());
 
